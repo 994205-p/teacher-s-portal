@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Attendance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .dashboard-body {
+            background-color: #eef2f7;
+        }
+        .automated-attendance-container {
+            padding: 2.5em;
+            max-width: 900px;
+            margin: 3em auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 6em);
+            box-sizing: border-box;
+        }
+        .automated-attendance-container h2 {
+            text-align: center;
+            margin-bottom: 1.5em;
+            color: #3f51b5;
+            font-size: 1.8em;
+            font-weight: 600;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .back-arrow {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            color: #3f51b5;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-arrow:hover {
+            color: #2c3e90;
+        }
+        .content-layout {
+            display: flex;
+            gap: 2em;
+            flex-grow: 1;
+        }
+        .qr-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2em;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .qr-section img {
+            width: 90%;
+            height: auto;
+            border: 5px solid #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .qr-section p {
+            margin-top: 1.5em;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #555;
+            text-align: center;
+        }
+        .present-list-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 500px; /* Added fixed height */
+        }
+        .present-list-container h3 {
+            background-color: #3f51b5;
+            color: #fff;
+            padding: 1em;
+            margin: 0;
+            text-align: center;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        .present-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .present-list li {
+            padding: 1em;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1.1em;
+            color: #333;
+            background-color: #ffffff;
+            transition: background-color 0.2s ease;
+        }
+        .present-list li:hover {
+            background-color: #f8f9fa;
+        }
+        .present-list li:last-child {
+            border-bottom: none;
+        }
+        .end-attendance-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #f44336;
+            border: none;
+            border-radius: 0 0 10px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+            flex-shrink: 0;
+        }
+        .end-attendance-btn:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+    <div class="automated-attendance-container">
+        <h2>
+            <a href="dashboard.html" class="back-arrow">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            Automated Attendance
+        </h2>
+        <div class="content-layout">
+            <div class="qr-section">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://your-attendance-system.com/class/second-cse-a" alt="QR Code Placeholder">
+                <p>Scan the QR code to mark your attendance.</p>
+            </div>
+            <div class="present-list-container">
+                <h3>Present Students</h3>
+                <ul class="present-list" id="presentStudentsList">
+                    </ul>
+                <button class="end-attendance-btn" id="endAttendanceBtn">End Attendance</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Student data (same as on other pages)
+            const studentData = {
+                'Second CSE-A': [
+                    'John Smith', 'Emily White', 'David Lee', 'Sarah Jones', 'Michael Brown', 
+                    'Jessica Miller', 'Christopher Davis', 'Ashley Garcia', 'Daniel Rodriguez',
+                    'Lauren Martinez', 'Jacob Hernandez', 'Olivia Lopez', 'Kevin Wilson', 
+                    'Sophia Baker', 'Ethan Hall', 'Chloe Adams', 'Ryan Scott', 'Grace King',
+                    'Noah Torres', 'Mia Perez', 'William Clark', 'Ava Wright', 'James Green',
+                    'Isabella Hill'
+                ],
+                'Second CSE-B': [
+                    'Olivia Taylor', 'Liam Anderson', 'Emma Martinez', 'Noah Thomas', 'Ava Jackson',
+                    'Sophia White', 'Jackson Harris', 'Mia Lewis', 'Lucas King', 'Isabella Hall',
+                    'Oliver Green', 'Charlotte Wright', 'Mason Turner', 'Amelia Hill', 'Elijah Allen'
+                ],
+                'Third CSE-B': [
+                    'Aria Brooks', 'Leo Bennett', 'Stella Cooper', 'Zoe Perry', 'Carter Evans',
+                    'Eleanor Foster', 'Henry Morgan', 'Lily Ross', 'Jack Simmons', 'Chloe Reed',
+                    'Owen Ward', 'Grace Collins', 'Wyatt Hughes', 'Hannah Watson', 'Logan Price'
+                ],
+                'Second IT-A': [
+                    'Nathan Bell', 'Victoria Cox', 'Caleb Henderson', 'Abigail Peterson', 'Samuel Fisher',
+                    'Madison Cook', 'Gabriel Morris', 'Evelyn Rivera', 'Adrian Ward', 'Julia Lopez'
+                ],
+                'Second AIDS-A': [
+                    'Benjamin Hughes', 'Addison Butler', 'Charles Stone', 'Natalie Long', 'Isaac Foster',
+                    'Penelope Simmons', 'Julian Price', 'Sadie Rivera', 'Sebastian Brooks', 'Layla Cooper'
+                ],
+                'Third IT-B': [
+                    'David Brown', 'Olivia Miller', 'William Davis', 'Sophia Garcia', 'James Rodriguez',
+                    'Emma Wilson', 'Benjamin Lee', 'Charlotte Clark', 'Daniel Lewis', 'Aria Hall'
+                ]
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const className = urlParams.get('class');
+            const titleElement = document.querySelector('h2');
+            const presentStudentsList = document.getElementById('presentStudentsList');
+            const endAttendanceBtn = document.getElementById('endAttendanceBtn');
+            const presentStudents = new Set();
+            let checkInInterval = null;
+
+            if (className) {
+                titleElement.innerHTML = `<a href="dashboard.html" class="back-arrow"><i class="fas fa-arrow-left"></i></a> Automated Attendance for ${className}`;
+                const students = studentData[className];
+                
+                if (students) {
+                    let studentIndex = 0;
+                    checkInInterval = setInterval(() => {
+                        if (presentStudents.size < students.length) {
+                            const randomStudent = students[Math.floor(Math.random() * students.length)];
+                            if (!presentStudents.has(randomStudent)) {
+                                presentStudents.add(randomStudent);
+                                const li = document.createElement('li');
+                                li.textContent = randomStudent;
+                                presentStudentsList.appendChild(li);
+                            }
+                        } else {
+                            clearInterval(checkInInterval);
+                        }
+                    }, 1500);
+                } else {
+                    presentStudentsList.innerHTML = '<li>No students found for this class.</li>';
+                }
+            } else {
+                titleElement.innerHTML = `<a href="dashboard.html" class="back-arrow"><i class="fas fa-arrow-left"></i></a> Automated Attendance`;
+                presentStudentsList.innerHTML = '<li>Please go back to the dashboard and select a class.</li>';
+            }
+
+            endAttendanceBtn.addEventListener('click', function() {
+                if (checkInInterval) {
+                    clearInterval(checkInInterval);
+                    alert('Attendance session has ended.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

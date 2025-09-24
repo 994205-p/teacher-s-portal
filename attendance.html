@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Log</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .attendance-container {
+            padding: 2em;
+            max-width: 800px;
+            margin: 2em auto;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .attendance-container h2 {
+            text-align: center;
+            margin-bottom: 1em;
+            color: #333;
+        }
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .attendance-table th, .attendance-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .attendance-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .status-present {
+            color: green;
+            font-weight: bold;
+        }
+        .status-absent {
+            color: red;
+            font-weight: bold;
+        }
+        .back-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+    <div class="attendance-container">
+        <h2>Student Attendance Log</h2>
+        <table class="attendance-table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Smith</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Emily White</td>
+                    <td>2024-10-26</td>
+                    <td class="status-absent">Absent</td>
+                </tr>
+                <tr>
+                    <td>David Lee</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Sarah Jones</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Michael Brown</td>
+                    <td>2024-10-26</td>
+                    <td class="status-absent">Absent</td>
+                </tr>
+                <tr>
+                    <td>Jessica Miller</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Christopher Davis</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Ashley Garcia</td>
+                    <td>2024-10-26</td>
+                    <td class="status-absent">Absent</td>
+                </tr>
+                <tr>
+                    <td>Daniel Rodriguez</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Lauren Martinez</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Jacob Hernandez</td>
+                    <td>2024-10-26</td>
+                    <td class="status-absent">Absent</td>
+                </tr>
+                <tr>
+                    <td>Olivia Lopez</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+                <tr>
+                    <td>Kevin Wilson</td>
+                    <td>2024-10-26</td>
+                    <td class="status-present">Present</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center; margin-top: 2em;">
+            <button class="back-btn" onclick="window.location.href='dashboard.html';">Back to Dashboard</button>
+        </div>
+    </div>
+</body>
+</html>

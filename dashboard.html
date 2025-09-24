@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="profile-img">
+                    <img src="image.png" alt="Profile Picture">
+                </div>
+                <h3 id="profileName">Your Name</h3>
+                <p>Assistant Professor</p>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Courses</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> Exams</a></li>
+                    <li><a href="#"><i class="fas fa-tasks"></i> Homework</a></li>
+                    <li><a href="#"><i class="fas fa-user-graduate"></i> Students</a></li>
+                    <li><a href="#"><i class="fas fa-money-bill-wave"></i> Paid Courses</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-check"></i> Attendance</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="header-icons">
+                    <i class="fas fa-bell"></i>
+                    <i class="fas fa-comment"></i>
+                </div>
+            </header>
+            <section class="class-cards">
+                <div class="class-card">
+                    <div class="card-content" style="background-color: hsl(43, 81%, 69%);">
+                        <h3>Second CSE-A</h3>
+                        <a href="attendance.html"><i class="fas fa-eye"></i> View Progress</a>
+                        <a href="mark-attendance.html?class=Second%20CSE-A"><i class="fas fa-users"></i> Mark Attendance</a>
+                    </div>
+                </div>
+                <div class="class-card">
+                    <div class="card-content" style="background-color: #81c784;">
+                        <h3>Second CSE-B</h3>
+                        <a href="attendance.html"><i class="fas fa-eye"></i> View Progress</a>
+                        <a href="mark-attendance.html?class=Second%20CSE-B"><i class="fas fa-users"></i> Mark Attendance</a>
+                    </div>
+                </div>
+                <div class="class-card">
+                    <div class="card-content" style="background-color: #fbb244;">
+                        <h3>Third CSE-B</h3>
+                        <a href="attendance.html"><i class="fas fa-eye"></i> View Progress</a>
+                        <a href="mark-attendance.html?class=Third%20CSE-B"><i class="fas fa-users"></i> Mark Attendance</a>
+                    </div>
+                </div>
+                <div class="class-card">
+                    <div class="card-content" style="background-color: #a1887f;">
+                        <h3>Second IT-A</h3>
+                        <a href="attendance.html"><i class="fas fa-eye"></i> View Progress</a>
+                        <a href="mark-attendance.html?class=Second%20IT-A"><i class="fas fa-users"></i> Mark Attendance</a>
+                    </div>
+                </div>
+                <div class="class-card">
+                    <div class="card-content" style="background-color: #90a4ae;">
+                        <h3>Second AIDS-A</h3>
+                        <a href="attendance.html"><i class="fas fa-eye"></i> View Progress</a>
+                        <a href="mark-attendance.html?class=Second%20AIDS-A"><i class="fas fa-users"></i> Mark Attendance</a>
+                    </div>
+                </div>
+                <div class="class-card">
+                    <div class="card-content" style="background-color: #d3512a;">
+                        <h3>Third IT-B</h3>
+                        <a href="attendance.html"><i class="fas fa-eye"></i> View Progress</a>
+                        <a href="mark-attendance.html?class=Third%20IT-B"><i class="fas fa-users"></i> Mark Attendance</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('profileName').textContent = userName;
+            }
+        });
+    </script>
+</body>
+</html>

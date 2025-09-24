@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Attendance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .dashboard-body {
+            background-color: #eef2f7;
+        }
+        .manual-attendance-container {
+            padding: 2.5em;
+            max-width: 700px;
+            margin: 3em auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 6em);
+            box-sizing: border-box;
+        }
+        .manual-attendance-container h2 {
+            text-align: center;
+            margin-bottom: 1.5em;
+            color: #3f51b5;
+            font-size: 1.8em;
+            font-weight: 600;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .back-arrow {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            color: #3f51b5;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-arrow:hover {
+            color: #2c3e90;
+        }
+        .manual-list-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1em;
+            margin: 0 0 1.5em 0;
+        }
+        .manual-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .manual-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em 0.5em;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .manual-list li:last-child {
+            border-bottom: none;
+        }
+        .student-name {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #333;
+        }
+        .status-options {
+            display: flex;
+            gap: 1.5em;
+        }
+        .status-options label {
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            transition: color 0.3s ease;
+        }
+        .status-options input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            transition: background-color 0.3s, border-color 0.3s;
+            position: relative;
+        }
+        .status-options input[type="radio"]:checked {
+            border-color: #3f51b5;
+            background-color: #3f51b5;
+        }
+        .status-options input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+        }
+        .present-label input[type="radio"]:checked {
+            border-color: #4caf50;
+            background-color: #4caf50;
+        }
+        .absent-label input[type="radio"]:checked {
+            border-color: #f44336;
+            background-color: #f44336;
+        }
+        .present-label:hover { color: #4caf50; }
+        .absent-label:hover { color: #f44336; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #3f51b5;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        .submit-btn:hover {
+            background-color: #2c3e90;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+    <div class="manual-attendance-container">
+        <h2>
+            <a href="dashboard.html" class="back-arrow">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            Manual Attendance
+        </h2>
+        <div class="manual-list-container">
+            <ul class="manual-list" id="manualList">
+                </ul>
+        </div>
+        <button class="submit-btn" id="submitBtn">Submit Attendance</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Student data (same as in mark-attendance.html)
+            const studentData = {
+                'Second CSE-A': [
+                    'John Smith', 'Emily White', 'David Lee', 'Sarah Jones', 'Michael Brown', 
+                    'Jessica Miller', 'Christopher Davis', 'Ashley Garcia', 'Daniel Rodriguez',
+                    'Lauren Martinez', 'Jacob Hernandez', 'Olivia Lopez', 'Kevin Wilson', 
+                    'Sophia Baker', 'Ethan Hall', 'Chloe Adams', 'Ryan Scott', 'Grace King',
+                    'Noah Torres', 'Mia Perez', 'William Clark', 'Ava Wright', 'James Green',
+                    'Isabella Hill'
+                ],
+                'Second CSE-B': [
+                    'Olivia Taylor', 'Liam Anderson', 'Emma Martinez', 'Noah Thomas', 'Ava Jackson',
+                    'Sophia White', 'Jackson Harris', 'Mia Lewis', 'Lucas King', 'Isabella Hall',
+                    'Oliver Green', 'Charlotte Wright', 'Mason Turner', 'Amelia Hill', 'Elijah Allen'
+                ],
+                'Third CSE-B': [
+                    'Aria Brooks', 'Leo Bennett', 'Stella Cooper', 'Zoe Perry', 'Carter Evans',
+                    'Eleanor Foster', 'Henry Morgan', 'Lily Ross', 'Jack Simmons', 'Chloe Reed',
+                    'Owen Ward', 'Grace Collins', 'Wyatt Hughes', 'Hannah Watson', 'Logan Price'
+                ],
+                'Second IT-A': [
+                    'Nathan Bell', 'Victoria Cox', 'Caleb Henderson', 'Abigail Peterson', 'Samuel Fisher',
+                    'Madison Cook', 'Gabriel Morris', 'Evelyn Rivera', 'Adrian Ward', 'Julia Lopez'
+                ],
+                'Second AIDS-A': [
+                    'Benjamin Hughes', 'Addison Butler', 'Charles Stone', 'Natalie Long', 'Isaac Foster',
+                    'Penelope Simmons', 'Julian Price', 'Sadie Rivera', 'Sebastian Brooks', 'Layla Cooper'
+                ],
+                'Third IT-B': [
+                    'David Brown', 'Olivia Miller', 'William Davis', 'Sophia Garcia', 'James Rodriguez',
+                    'Emma Wilson', 'Benjamin Lee', 'Charlotte Clark', 'Daniel Lewis', 'Aria Hall'
+                ]
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const className = urlParams.get('class');
+
+            const titleElement = document.querySelector('h2');
+            const manualListElement = document.getElementById('manualList');
+
+            if (className) {
+                titleElement.innerHTML = `<a href="dashboard.html" class="back-arrow"><i class="fas fa-arrow-left"></i></a> Manual Attendance for ${className}`;
+                const students = studentData[className];
+
+                if (students) {
+                    students.forEach((student, index) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <span class="student-name">${student}</span>
+                            <div class="status-options">
+                                <label class="present-label">
+                                    <input type="radio" name="attendance-${index}" value="present" checked> Present
+                                </label>
+                                <label class="absent-label">
+                                    <input type="radio" name="attendance-${index}" value="absent"> Absent
+                                </label>
+                            </div>
+                        `;
+                        manualListElement.appendChild(li);
+                    });
+                } else {
+                    manualListElement.innerHTML = '<li>No students found for this class.</li>';
+                }
+            } else {
+                titleElement.innerHTML = `<a href="dashboard.html" class="back-arrow"><i class="fas fa-arrow-left"></i></a> Manual Attendance`;
+                manualListElement.innerHTML = '<li>Please go back to the dashboard and select a class.</li>';
+            }
+            
+            // Add event listener for the submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.addEventListener('click', function() {
+                alert("Attendance Submitted!");
+            });
+        });
+    </script>
+</body>
+</html>

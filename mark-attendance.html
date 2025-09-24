@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .dashboard-body {
+            background-color: #eef2f7; /* Lighter, soft blue background */
+        }
+        .attendance-form-container {
+            padding: 2.5em;
+            max-width: 650px;
+            margin: 3em auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 6em); /* Adjusted height to fill the viewport */
+            box-sizing: border-box;
+        }
+        .attendance-form-container h2 {
+            text-align: center;
+            margin-bottom: 1.5em;
+            color: #3f51b5; /* Deeper blue for heading */
+            font-size: 1.8em;
+            font-weight: 600;
+            flex-shrink: 0; /* Prevents heading from shrinking */
+            position: relative; /* Position relative to allow absolute positioning of the arrow */
+        }
+        .back-arrow {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            color: #3f51b5;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-arrow:hover {
+            color: #2c3e90;
+        }
+        .student-list-container {
+            flex-grow: 1; /* Allows this container to fill available space */
+            overflow-y: auto; /* Adds a scrollbar when content overflows */
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 0;
+            margin: 0;
+        }
+        .student-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .student-list li {
+            background-color: #f8f9fa; /* Light grey list item background */
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1.2em;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .student-list li:hover {
+            background-color: #f1f3f5; /* Slightly darker on hover */
+        }
+        .student-list li:last-child {
+            border-bottom: none;
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 2.5em;
+            display: flex;
+            justify-content: center;
+            gap: 1.5em;
+            flex-shrink: 0; /* Prevents button group from shrinking */
+        }
+        .action-button {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .manual-btn {
+            background-color: #3f51b5; /* Primary blue */
+            color: #fff;
+        }
+        .manual-btn:hover {
+            background-color: #2c3e90;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        .automated-btn {
+            background-color: #4caf50; /* Green for success/automation */
+            color: #fff;
+        }
+        .automated-btn:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+    <div class="attendance-form-container">
+        <h2>
+            <a href="dashboard.html" class="back-arrow">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            Attendance
+        </h2>
+        <div class="student-list-container">
+            <ul class="student-list" id="studentList">
+                </ul>
+        </div>
+        <div class="button-group">
+            <button class="action-button manual-btn" id="manualBtn">Mark Manually</button>
+            <button class="action-button automated-btn" id="automatedBtn">Automated Attendance</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentData = {
+                'Second CSE-A': [
+                    'John Smith', 'Emily White', 'David Lee', 'Sarah Jones', 'Michael Brown', 
+                    'Jessica Miller', 'Christopher Davis', 'Ashley Garcia', 'Daniel Rodriguez',
+                    'Lauren Martinez', 'Jacob Hernandez', 'Olivia Lopez', 'Kevin Wilson', 
+                    'Sophia Baker', 'Ethan Hall', 'Chloe Adams', 'Ryan Scott', 'Grace King',
+                    'Noah Torres', 'Mia Perez', 'William Clark', 'Ava Wright', 'James Green',
+                    'Isabella Hill'
+                ],
+                'Second CSE-B': [
+                    'Olivia Taylor', 'Liam Anderson', 'Emma Martinez', 'Noah Thomas', 'Ava Jackson',
+                    'Sophia White', 'Jackson Harris', 'Mia Lewis', 'Lucas King', 'Isabella Hall',
+                    'Oliver Green', 'Charlotte Wright', 'Mason Turner', 'Amelia Hill', 'Elijah Allen'
+                ],
+                'Third CSE-B': [
+                    'Aria Brooks', 'Leo Bennett', 'Stella Cooper', 'Zoe Perry', 'Carter Evans',
+                    'Eleanor Foster', 'Henry Morgan', 'Lily Ross', 'Jack Simmons', 'Chloe Reed',
+                    'Owen Ward', 'Grace Collins', 'Wyatt Hughes', 'Hannah Watson', 'Logan Price'
+                ],
+                'Second IT-A': [
+                    'Nathan Bell', 'Victoria Cox', 'Caleb Henderson', 'Abigail Peterson', 'Samuel Fisher',
+                    'Madison Cook', 'Gabriel Morris', 'Evelyn Rivera', 'Adrian Ward', 'Julia Lopez'
+                ],
+                'Second AIDS-A': [
+                    'Benjamin Hughes', 'Addison Butler', 'Charles Stone', 'Natalie Long', 'Isaac Foster',
+                    'Penelope Simmons', 'Julian Price', 'Sadie Rivera', 'Sebastian Brooks', 'Layla Cooper'
+                ],
+                'Third IT-B': [
+                    'David Brown', 'Olivia Miller', 'William Davis', 'Sophia Garcia', 'James Rodriguez',
+                    'Emma Wilson', 'Benjamin Lee', 'Charlotte Clark', 'Daniel Lewis', 'Aria Hall'
+                ]
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const className = urlParams.get('class');
+
+            const titleElement = document.querySelector('h2');
+            const studentListElement = document.getElementById('studentList');
+
+            if (className) {
+                titleElement.innerHTML = `<a href="dashboard.html" class="back-arrow"><i class="fas fa-arrow-left"></i></a> Attendance for ${className}`;
+                const students = studentData[className];
+                if (students) {
+                    studentListElement.innerHTML = '';
+                    students.forEach(student => {
+                        const li = document.createElement('li');
+                        li.textContent = student;
+                        studentListElement.appendChild(li);
+                    });
+                } else {
+                    studentListElement.innerHTML = '<li>No students found for this class.</li>';
+                }
+            } else {
+                titleElement.innerHTML = `<a href="dashboard.html" class="back-arrow"><i class="fas fa-arrow-left"></i></a> Select a Class to take Attendance`;
+                studentListElement.innerHTML = '<li>Please go back to the dashboard and select a class.</li>';
+            }
+
+            const manualBtn = document.getElementById('manualBtn');
+            manualBtn.addEventListener('click', function() {
+                if (className) {
+                    window.location.href = `manual-attendance.html?class=${encodeURIComponent(className)}`;
+                }
+            });
+
+            const automatedBtn = document.getElementById('automatedBtn');
+            automatedBtn.addEventListener('click', function() {
+                if (className) {
+                    window.location.href = `automated-attendance.html?class=${encodeURIComponent(className)}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

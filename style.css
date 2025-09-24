@@ -1,0 +1,258 @@
+/* General Body and Fonts */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Login Page Styling */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+}
+
+.login-container {
+    padding: 2.5em;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+}
+
+.login-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    font-weight: 700;
+}
+
+.input-group {
+    margin-bottom: 1.5em;
+    text-align: left;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 1em;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 2em;
+    font-size: 0.9em;
+}
+
+.forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    background-color: #fff;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.signup-link {
+    margin-top: 2em;
+    font-size: 0.9em;
+}
+
+.signup-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Dashboard Page Styling */
+.dashboard-body {
+    background-color: #f0f2f5;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 2em 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0 15px 15px 0;
+}
+
+.profile-card {
+    text-align: center;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-img img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+    margin-bottom: 1em;
+    object-fit: cover; /* Ensures the image covers the circular space without distortion */
+}
+
+.profile-card h3 {
+    margin: 0.5em 0 0.2em;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.profile-card p {
+    margin: 0;
+    color: #888;
+    font-size: 0.9em;
+}
+
+.main-nav {
+    width: 100%;
+    margin-top: 2em;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-nav li {
+    margin-bottom: 0.5em;
+}
+
+.main-nav a {
+    display: flex;
+    align-items: center;
+    padding: 0.8em 1.5em;
+    text-decoration: none;
+    color: #555;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.main-nav a i {
+    margin-right: 1em;
+    width: 20px;
+    text-align: center;
+}
+
+.main-nav li.active a {
+    background-color: #e0e7ff;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.main-nav a:hover {
+    background-color: #e9ecef;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
+.search-bar {
+    position: relative;
+    width: 400px;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 0.8em 0.8em 0.8em 3em;
+    border-radius: 25px;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.header-icons i {
+    font-size: 1.2em;
+    margin-left: 1em;
+    color: #555;
+    cursor: pointer;
+}
+
+.class-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5em;
+    margin-bottom: 2em;
+}
+
+.class-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card-content {
+    padding: 1.5em;
+    color: #fff;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.card-content a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 0.5em;
+    opacity: 0.8;
+}
+
+.card-content a:hover {
+    opacity: 1;
+}
